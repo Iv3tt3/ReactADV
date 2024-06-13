@@ -1,0 +1,61 @@
+.advertsList {
+  display: grid;
+  row-gap: 10px;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  justify-content: space-evenly;
+}
+
+.advertContainer {
+  margin: 10pt;
+  border: 1pt solid lightgray;
+  padding: 20pt;
+  border-radius: 10pt;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(244, 244, 244);
+}
+
+.emptyAdvertsList {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  background-color: lightgray;
+  border-radius: 10pt;
+  width: 100%;
+  padding: 50pt 0;
+}
+.emptyAdvertsList p {
+  font-size: 20px;
+  text-justify: center;
+}
+
+.filterContainer {
+  background-color: rgb(243, 243, 243);
+  width: 100%;
+  padding: 20pt;
+  border-radius: 10pt;
+}
+
+.filterButton {
+  padding: 10pt;
+  margin: 10pt;
+}
+
+@media (min-width: 400px) {
+  .advertContainer {
+    width: 400px;
+  }
+}
+
+@media (max-width: 1450px) {
+  .advertsList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 950px) {
+  .advertsList {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
