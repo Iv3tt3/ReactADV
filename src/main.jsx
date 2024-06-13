@@ -6,9 +6,9 @@ import { setAuthorizationHeader } from "./api/client.jsx";
 import { AuthContextProvider } from "./pages/auth/context.jsx";
 import { BrowserRouter } from "react-router-dom";
 import configureStore from "./store/index.jsx";
+import { Provider } from "react-redux";
 
 const store = configureStore();
-window.store = store;
 
 const accessToken = storage.get("key");
 if (accessToken) {
@@ -17,10 +17,12 @@ if (accessToken) {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AuthContextProvider isDefaultLogged={!!accessToken}>
-        <App />
-      </AuthContextProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AuthContextProvider isDefaultLogged={!!accessToken}>
+          <App />
+        </AuthContextProvider>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
