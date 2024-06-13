@@ -5,6 +5,10 @@ import storage from "./utils/storage.jsx";
 import { setAuthorizationHeader } from "./api/client.jsx";
 import { AuthContextProvider } from "./pages/auth/context.jsx";
 import { BrowserRouter } from "react-router-dom";
+import configureStore from "./store/index.jsx";
+
+const store = configureStore();
+window.store = store;
 
 const accessToken = storage.get("key");
 if (accessToken) {
