@@ -1,16 +1,16 @@
 import Button from "../../componentes/shared/Button";
 import { login } from "./service";
-import { useAuth } from "./context";
 import { useState } from "react";
 import Layout from "../../componentes/layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
+import { useDispatch } from "react-redux";
+import { authLogin } from "../../store/actions";
 
 export function LoginPage() {
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-
-  const { onLogin } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -36,7 +36,7 @@ export function LoginPage() {
         },
         checked
       );
-      onLogin();
+      dispatch(authLogin());
       setIsFetching(false);
       navigate(location.state?.pathname || "/");
     } catch (error) {

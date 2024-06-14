@@ -1,15 +1,18 @@
 import { Logo } from "../shared/logo";
 import Button from "../shared/Button";
-import { useAuth } from "../../pages/auth/context";
 import { logout } from "../../pages/auth/service";
 import { Link, NavLink } from "react-router-dom";
 import "./Header.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { authLogout } from "../../store/actions";
+import { getIsLogged } from "../../store/selectors";
 
 export default function Header() {
-  const { isLogged, onLogout } = useAuth();
+  const isLogged = useSelector(getIsLogged)
+  const dispatch = useDispatch()
 
   const handleLogout = () => {
-    onLogout();
+    dispatch(authLogout());
     logout();
   };
 
