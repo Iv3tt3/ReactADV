@@ -21,6 +21,7 @@
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
+    "@redux-devtools/core": "^4.0.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react-swc": "^3.5.0",

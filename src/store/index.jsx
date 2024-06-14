@@ -1,5 +1,6 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, bindActionCreators } from "redux";
 import * as reducers from "./reducers";
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const reducer = combineReducers(reducers);
 
@@ -7,7 +8,8 @@ export default function configureStore(preloadedState) {
   const store = createStore(
     reducer, 
     preloadedState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&window.__REDUX_DEVTOOLS_EXTENSION__());
+    composeWithDevTools( { bindActionCreators })(),
+);
   return store;
 }
 
