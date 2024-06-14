@@ -3,11 +3,12 @@ import { AdvertsList } from "./pages/adverts/AdvertsList.jsx";
 import { LoginPage } from "./pages/auth/Login";
 import { AdvertDetail } from "./pages/adverts/AdvertDetail";
 import { NewAdvert } from "./pages/adverts/NewAdvert.jsx";
-import { useAuth } from "./pages/auth/context.jsx";
 import RequireAuth from "./pages/auth/RequireAuth.jsx";
+import { useSelector } from "react-redux";
+import { getIsLogged } from "./store/selectors.jsx";
 
 function App() {
-  const { isLogged } = useAuth();
+  const isLogged = useSelector(getIsLogged)
 
   return (
     <Routes>
