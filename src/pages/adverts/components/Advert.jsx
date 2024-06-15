@@ -22,7 +22,7 @@ Advert.propTypes = {
   name: PropTypes.string,
   sale: PropTypes.bool,
   price: PropTypes.number,
-  tags: PropTypes.string,
+  tags: PropTypes.array,
   photo: PropTypes.string,
 };
 

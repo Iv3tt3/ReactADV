@@ -1,5 +1,4 @@
 import Button from "../../componentes/shared/Button";
-import { login } from "./service";
 import { useState } from "react";
 import Layout from "../../componentes/layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,20 +27,22 @@ export function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setIsFetching(true);
-      await login(
-        {
-          email,
-          password,
-        },
-        checked
-      );
-      dispatch(authLogin());
-      setIsFetching(false);
+      dispatch(authLogin(formData, checked));
+      // setIsFetching(true);
+      // await login(
+      //   {
+      //     email,
+      //     password,
+      //   },
+      //   checked
+      // );
+      
+      // setIsFetching(false);
       navigate(location.state?.pathname || "/");
     } catch (error) {
-      setIsFetching(true);
-      setError(error);
+      // setIsFetching(true);
+      // setError(error);
+      console.log(error)
     }
   };
 

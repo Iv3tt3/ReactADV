@@ -1,15 +1,20 @@
-import { createStore, combineReducers, bindActionCreators } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { composeWithDevTools } from '@redux-devtools/extension';
+import { withExtraArgument } from "redux-thunk";
+
 import * as reducers from "./reducers";
-import { composeWithDevTools } from 'redux-devtools-extension';
+import * as actionCreators from "./actions";
+import * as auth from "../pages/auth/service";
 
 const reducer = combineReducers(reducers);
 
+const composeEnhancers = composeWithDevTools({ actionCreators });
+
 export default function configureStore(preloadedState) {
   const store = createStore(
-    reducer, 
+    reducer,
     preloadedState,
-    composeWithDevTools( { bindActionCreators })(),
-);
+    composeEnhancers(applyMiddleware(withExtraArgument({ services: { auth } })))
+  );
   return store;
 }
-
