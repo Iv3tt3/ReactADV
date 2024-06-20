@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import styles from "./Advert.module.css";
 
-function Advert({ name, sale, price, tags, photo }) {
+function Advert({ name = "" , sale = true, price = 0, tags = [], photo = ""}) {
   return (
     <>
       <p className={styles.advertPrice}>{price} EUR</p>

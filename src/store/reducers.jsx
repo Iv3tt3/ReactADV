@@ -2,6 +2,10 @@ import * as t from "./types";
 
 export const defaultState = {
   auth: false,
+  adverts: {
+    loaded: false,
+    data: [],
+  },
   ui: {
     pending: false,
     error: null,
@@ -19,6 +23,19 @@ export function auth(state = defaultState.auth, action) {
   }
 }
 
+export function adverts(state = defaultState.adverts, action) {
+  switch (action.type) {
+    case t.ADVERTS_LIST_PENDING:
+      return { ...state, loaded: true };
+    case t.ADVERTS_LIST_FULFILLED:
+      return { ...state, data: action.payload };
+    case t.ADVERTS_LIST_REJECTED:
+      return { ...state, data: action.payload };
+    default:
+      return state;
+  }
+}
+
 export function ui(state = defaultState.ui, action) {
   if (action.error) {
     return { ...state, pending: false, error: action.payload };
@@ -28,11 +45,11 @@ export function ui(state = defaultState.ui, action) {
     return { ...state, error: null };
   }
 
-  if (action.type.endsWith('/pending')) {
+  if (action.type.endsWith("/pending")) {
     return { ...state, pending: true };
   }
 
-  if (action.type.endsWith('/fulfilled')) {
+  if (action.type.endsWith("/fulfilled")) {
     return { ...state, pending: false, error: null };
   }
 

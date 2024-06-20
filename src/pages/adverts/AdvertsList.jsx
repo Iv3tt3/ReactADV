@@ -2,27 +2,25 @@ import { Link } from "react-router-dom";
 import Layout from "../../componentes/layout/Layout";
 import Advert from "./components/Advert";
 import styles from "./AdvertsList.module.css";
-import { getAdverts } from "./service";
 import { useEffect, useState } from "react";
-import RadioButton from "../../componentes/shared/RadioButton";
-import { useNavigate } from "react-router-dom";
 import NotificationMSG from "../../componentes/shared/Notification";
+import { useDispatch, useSelector } from "react-redux";
+import { listedAdverts } from "../../store/selectors";
+import { getListAdverts } from "../../store/actions";
+import RadioButton from "../../componentes/shared/RadioButton";
 import FormField from "../../componentes/shared/FormField";
 
 export function AdvertsList() {
-  const navigate = useNavigate();
-
-  const [adverts, setAdverts] = useState([]);
+  const dispatch = useDispatch();
+  const adverts = useSelector(listedAdverts);
 
   const [adsFilter, setAdsFilter] = useState([]);
-
+  const [isFilter, setIsFilter] = useState(false);
   const [typeFilter, setTypeFilter] = useState("");
-
   const [PricesFilter, setPricesFilter] = useState({
     minprice: "",
     maxprice: "",
   });
-
   const { minprice, maxprice } = PricesFilter;
 
   const handleChange = (event) => {
@@ -63,18 +61,10 @@ export function AdvertsList() {
     setIsFilter(false);
   };
 
-  const [isFilter, setIsFilter] = useState(false);
-
   useEffect(() => {
-    try {
-      getAdverts().then((ads) => {
-        setAdverts(ads);
-        setAdsFilter(ads);
-      });
-    } catch (error) {
-      if (error.status === 404) navigate("/404");
-    }
-  }, [navigate]);
+    dispatch(getListAdverts());
+    setAdsFilter(adverts);
+  }, [dispatch, adverts]);
 
   return (
     <Layout>
@@ -167,22 +157,26 @@ export function AdvertsList() {
           Reset
         </button>
       </div>
-      <ul className={styles.advertsList}>
-        {adsFilter.length !== 0 ? (
-          adsFilter.map(({ ...advert }) => (
-            <li className={styles.advertContainer} key={advert.id}>
-              <Link to={`/adverts/${advert.id}`}>
-                <Advert {...advert} />
-              </Link>
-            </li>
-          ))
-        ) : (
-          <NotificationMSG
-            className={styles.emptyAdvertsList}
-            msg="No ads to show yet"
-          />
-        )}
-      </ul>
+      <div>
+        <ul className={styles.advertsList}>
+          {adsFilter.length ? (
+            <ul>
+              {adsFilter.map(({ id, ...adverts }) => (
+                <li key={id}>
+                  <Link to={`/tweets/${id}`}>
+                    <Advert {...adverts} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <NotificationMSG
+              className={styles.emptyAdvertsList}
+              msg="No ads to show yet"
+            />
+          )}
+        </ul>
+      </div>
     </Layout>
   );
 }

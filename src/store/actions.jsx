@@ -1,3 +1,4 @@
+import { areAdvertsLoaded } from "./selectors.jsx";
 import * as t from "./types.jsx";
 
 export const authLoginPending = () => ({
@@ -30,6 +31,39 @@ export const authLogin = (credentials, checked) => {
 export const authLogout = () => ({
   type: t.AUTH_LOGOUT,
 });
+
+export const advertsListPending = () => ({
+  type: t.ADVERTS_LIST_PENDING,
+});
+
+export const advertsListFulfilled = adverts => ({
+  type: t.ADVERTS_LIST_FULFILLED,
+  payload: adverts,
+});
+
+export const advertsListRejected = error => ({
+  type: t.ADVERTS_LIST_REJECTED,
+  payload: error,
+  error: true,
+});
+
+export const getListAdverts = () => {
+  return async function (dispatch, getState, { services }) {
+    const state = getState();
+    if (areAdvertsLoaded(state)) {
+      return;
+    }
+    try {
+      dispatch(advertsListPending());
+      const adverts = await services.adverts.getAdverts();
+      adverts.map(advert => console.log(advert))
+      dispatch(advertsListFulfilled(adverts));
+    } catch (error) {
+      dispatch(advertsListRejected(error));
+    }
+  };
+};
+
 
 export const uiResetError = () => ({
   type: t.UI_RESET_ERROR,
