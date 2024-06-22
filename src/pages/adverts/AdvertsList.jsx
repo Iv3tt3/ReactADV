@@ -5,14 +5,16 @@ import styles from "./AdvertsList.module.css";
 import { useEffect, useState } from "react";
 import NotificationMSG from "../../componentes/shared/Notification";
 import { useDispatch, useSelector } from "react-redux";
-import { listedAdverts } from "../../store/selectors";
+import { availableTags, listedAdverts } from "../../store/selectors";
 import { getListAdverts } from "../../store/actions";
 import RadioButton from "../../componentes/shared/RadioButton";
 import FormField from "../../componentes/shared/FormField";
+import Tags from "./components/Tags";
 
 export function AdvertsList() {
   const dispatch = useDispatch();
   const adverts = useSelector(listedAdverts);
+  const tags = useSelector(availableTags)
 
   const [adsFilter, setAdsFilter] = useState([]);
   const [isFilter, setIsFilter] = useState(false);
@@ -139,6 +141,8 @@ export function AdvertsList() {
             </p>
           </div>
         )}
+        <Tags options={tags}/>
+        
         <button
           className={styles.filterButton}
           disabled={

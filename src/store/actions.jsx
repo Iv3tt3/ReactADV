@@ -16,14 +16,14 @@ export const authLoginRejected = (error) => ({
 });
 
 export const authLogin = (credentials, checked) => {
-  return async function (dispatch, _getState, { services: {auth} }) {
+  return async function (dispatch, _getState, { services: { auth } }) {
     try {
       dispatch(authLoginPending());
       await auth.login(credentials, checked);
       dispatch(authLoginFulfilled());
     } catch (error) {
       dispatch(authLoginRejected(error));
-      console.log(error)
+      console.log(error);
     }
   };
 };
@@ -36,12 +36,12 @@ export const advertsListPending = () => ({
   type: t.ADVERTS_LIST_PENDING,
 });
 
-export const advertsListFulfilled = adverts => ({
+export const advertsListFulfilled = (adverts) => ({
   type: t.ADVERTS_LIST_FULFILLED,
   payload: adverts,
 });
 
-export const advertsListRejected = error => ({
+export const advertsListRejected = (error) => ({
   type: t.ADVERTS_LIST_REJECTED,
   payload: error,
   error: true,
@@ -56,7 +56,6 @@ export const getListAdverts = () => {
     try {
       dispatch(advertsListPending());
       const adverts = await services.adverts.getAdverts();
-      adverts.map(advert => console.log(advert))
       dispatch(advertsListFulfilled(adverts));
     } catch (error) {
       dispatch(advertsListRejected(error));
@@ -64,7 +63,43 @@ export const getListAdverts = () => {
   };
 };
 
-
 export const uiResetError = () => ({
   type: t.UI_RESET_ERROR,
+});
+
+export const tagsListPending = () => ({
+  type: t.TAGS_LIST_PENDING,
+});
+
+export const tagsListFulfilled = (tags) => ({
+  type: t.TAGS_LIST_FULFILLED,
+  payload: tags,
+});
+
+export const tagsListRejected = (error) => ({
+  type: t.TAGS_LIST_REJECTED,
+  payload: error,
+  error: true,
+});
+
+export const getAdvertTags = () => {
+  return async function (dispatch, getState, { services }) {
+    // const state = getState();
+    // if (areTagsLoaded(state)) {
+    //   return;
+    // }
+    try {
+      dispatch(tagsListPending());
+      const tags = await services.adverts.getTags();
+      console.log(tags)
+      dispatch(tagsListFulfilled(tags));
+    } catch (error) {
+      dispatch(tagsListRejected(error));
+    }
+  };
+};
+
+export const selectedTags = (tag) => ({
+  type: t.TAGS_LIST_SELECTED,
+  payload: tag,
 });

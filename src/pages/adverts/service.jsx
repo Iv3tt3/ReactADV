@@ -24,3 +24,8 @@ export const deleteAdvert = (tweetId) => {
   const url = `${advertsURL}/${tweetId}`;
   return client.delete(url);
 };
+
+export const getTags = () => {
+  const url = `${advertsURL}/tags`;
+  return client.get(url)
+}

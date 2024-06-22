@@ -10,6 +10,11 @@ export const defaultState = {
     pending: false,
     error: null,
   },
+  tags: {
+    loaded: false,
+    data: [],
+    filtered: [],
+  },
 };
 
 export function auth(state = defaultState.auth, action) {
@@ -28,9 +33,9 @@ export function adverts(state = defaultState.adverts, action) {
     case t.ADVERTS_LIST_PENDING:
       return { ...state, loaded: true };
     case t.ADVERTS_LIST_FULFILLED:
-      return { ...state, data: action.payload };
+      return { ...state, data: action.payload, ...state.data };
     case t.ADVERTS_LIST_REJECTED:
-      return { ...state, data: action.payload };
+      return { ...state, data: action.payload, ...state.data };
     default:
       return state;
   }
@@ -54,4 +59,19 @@ export function ui(state = defaultState.ui, action) {
   }
 
   return state;
+}
+
+export function tags(state = defaultState.tags, action) {
+  switch (action.type) {
+    case t.TAGS_LIST_PENDING:
+      return { ...state, loaded: true };
+    case t.TAGS_LIST_FULFILLED:
+      return { ...state, data: action.payload, ...state.data };
+    case t.TAGS_LIST_REJECTED:
+      return { ...state, data: action.payload, ...state.data };
+    case t.TAGS_LIST_SELECTED: 
+      return { ...state, filtered: action.payload, ...state.data };
+    default:
+      return state;
+  }
 }
