@@ -7,10 +7,10 @@ export const getAdverts = () => {
   return client.get(url);
 };
 
-export const getAdvert = (tweetId) => {
-  const url = `${advertsURL}/${tweetId}`;
-  return client.get(url);
-};
+// export const getAdvert = (tweetId) => {
+//   const url = `${advertsURL}/${tweetId}`;
+//   return client.get(url);
+// };
 
 export const postAdvert = (data) => {
   return client.post(`${advertsURL}`, data, {

@@ -40,7 +40,7 @@ export function ui(state = defaultState.ui, action) {
   return state;
 }
 
-export function adverts(state = [defaultState.adverts], action) {
+export function adverts(state = defaultState.adverts, action) {
   switch (action.type) {
     case t.ADVERTS_LOADED:
       return action.payload;

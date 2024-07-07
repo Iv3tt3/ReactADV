@@ -12,6 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { advertsLoaded } from "../../store/actions";
 
 export function AdvertsList() {
+
+  // When I use browser navegation the request to the server is dispatch every time!
+  
   const dispatch = useDispatch()
   const adverts = useSelector(getAdverts)
   const navigate = useNavigate();
