@@ -34,3 +34,13 @@ export const authLogout = () => ({
 export const uiResetError = () => ({
   type: t.UI_RESET_ERROR,
 });
+
+export const advertsLoaded = adverts => ({
+  type: t.ADVERTS_LOADED,
+  payload: adverts,
+});
+
+export const advertsCreated = advert => ({
+  type: t.ADVERTS_CREATED,
+  payload: advert,
+});

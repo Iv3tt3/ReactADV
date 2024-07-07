@@ -8,11 +8,15 @@ import RadioButton from "../../componentes/shared/RadioButton";
 import { useNavigate } from "react-router-dom";
 import NotificationMSG from "../../componentes/shared/Notification";
 import FormField from "../../componentes/shared/FormField";
+import { useDispatch, useSelector } from "react-redux";
+import { advertsLoaded } from "../../store/actions";
 
 export function AdvertsList() {
+  const dispatch = useDispatch()
+  const adverts = useSelector(getAdverts)
   const navigate = useNavigate();
 
-  const [adverts, setAdverts] = useState([]);
+  //const [adverts, setAdverts] = useState([]);
 
   const [adsFilter, setAdsFilter] = useState([]);
 
@@ -68,13 +72,14 @@ export function AdvertsList() {
   useEffect(() => {
     try {
       getAdverts().then((ads) => {
-        setAdverts(ads);
+        dispatch(advertsLoaded(ads))
+        //setAdverts(ads);
         setAdsFilter(ads);
       });
     } catch (error) {
       if (error.status === 404) navigate("/404");
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   return (
     <Layout>
