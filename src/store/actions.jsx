@@ -40,7 +40,7 @@ export const advertsLoaded = adverts => ({
   payload: adverts,
 });
 
-export const advertsCreated = advert => ({
+export const advertCreated = advert => ({
   type: t.ADVERTS_CREATED,
   payload: advert,
 });
