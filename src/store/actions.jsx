@@ -82,10 +82,11 @@ export const loadAdverts = () => {
 };
 
 export const createAd = (advert) => {
-  return async function (dispatch, getState, { services: { adverts } }) {
+  return async function (dispatch, getState, { services: { adverts }, router }) {
     const { id } = await adverts.postAdvert(advert);
     const advertInfo = await adverts.getAdvert(id);
     dispatch(advertCreated(advertInfo));
+    router.navigate("/");
   };
 };
 
