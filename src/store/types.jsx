@@ -11,3 +11,4 @@ export const ADVERTS_LOADED_FULFILLED = 'adverts/loaded/fulfilled';
 export const ADVERTS_LOADED_REJECTED = 'adverts/loaded/rejected';
 
 export const ADVERTS_CREATED = 'adverts/created';
+export const ADVERT_DETAIL = 'advert/detail'

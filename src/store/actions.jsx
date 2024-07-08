@@ -1,4 +1,4 @@
-import { areAdvertsLoaded } from "./selectors.jsx";
+import { areAdvertsLoaded, getAdvert } from "./selectors.jsx";
 import * as t from "./types.jsx";
 
 export const authLoginPending = () => ({
@@ -16,14 +16,14 @@ export const authLoginRejected = (error) => ({
 });
 
 export const authLogin = (credentials, checked) => {
-  return async function (dispatch, _getState, { services: {auth} }) {
+  return async function (dispatch, _getState, { services: { auth } }) {
     try {
       dispatch(authLoginPending());
       await auth.login(credentials, checked);
       dispatch(authLoginFulfilled());
     } catch (error) {
       dispatch(authLoginRejected(error));
-      console.log(error)
+      console.log(error);
     }
   };
 };
@@ -40,24 +40,24 @@ export const advertsLoadedPending = () => ({
   type: t.ADVERTS_LOADED_PENDING,
 });
 
-export const advertsLoadedFulfilled = adverts => ({
+export const advertsLoadedFulfilled = (adverts) => ({
   type: t.ADVERTS_LOADED_FULFILLED,
   payload: adverts,
 });
 
-export const advertsLoadedRejected = error => ({
+export const advertsLoadedRejected = (error) => ({
   type: t.ADVERTS_LOADED_REJECTED,
   payload: error,
-  error: true
+  error: true,
 });
 
-export const advertCreated = advert => ({
+export const advertCreated = (advert) => ({
   type: t.ADVERTS_CREATED,
   payload: advert,
 });
 
 export const loadAdverts = () => {
-  return async function (dispatch, getState, { services: { adverts }}) {
+  return async function (dispatch, getState, { services: { adverts } }) {
     const state = getState();
     if (areAdvertsLoaded(state)) {
       return;
@@ -68,15 +68,31 @@ export const loadAdverts = () => {
       dispatch(advertsLoadedFulfilled(advertsData));
     } catch (error) {
       dispatch(advertsLoadedRejected(error));
-      console.log(error)
+      console.log(error);
     }
   };
 };
 
 export const createAd = (advert) => {
-  return async function (dispatch, getState, { services: { adverts }}) {
-      const { id } = await adverts.postAdvert(advert);
-      const advertInfo = await adverts.getAdvert(id)
-      dispatch(advertCreated(advertInfo));
+  return async function (dispatch, getState, { services: { adverts } }) {
+    const { id } = await adverts.postAdvert(advert);
+    const advertInfo = await adverts.getAdvert(id);
+    dispatch(advertCreated(advertInfo));
+  };
+};
+
+export const advertDetail = (advert) => ({
+  type: t.ADVERT_DETAIL,
+  payload: advert,
+});
+
+export const loadAdvert = (advertId) => {
+  return async function (dispatch, getState, { services: { adverts } }) {
+    const state = getState();
+    if (getAdvert(advertId)(state)) {
+      return
+    }
+    const advert = await adverts.getAdvert(advertId);
+    dispatch(advertDetail(advert));
   };
 };

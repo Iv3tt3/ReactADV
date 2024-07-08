@@ -1,20 +1,19 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../componentes/layout/Layout";
 import { deleteAdvert } from "./service";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Advert from "./components/Advert";
 import Button from "../../componentes/shared/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAdvert } from "../../store/selectors";
+import { loadAdvert } from "../../store/actions";
 
 export function AdvertDetail() {
-
-  // When access to AdvertDetail directly or reload without access first to AdvertList the dispatch is not done and adverts are empty so no advert will be displayed! 
   
-  const params = useParams().id;
+  const adId = useParams().id;
 
-  const ad = useSelector(getAdvert(params))
-
+  const ad = useSelector(getAdvert(adId))
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   // const [ad, setAd] = useState(null);
@@ -22,11 +21,11 @@ export function AdvertDetail() {
   const [showConfirm, setShowCofirm] = useState(false);
 
   const deleteAd = () => {
-    deleteAdvert(params);
+    deleteAdvert(adId);
     navigate("/");
   };
 
-  // useEffect(() => {
+  useEffect(() => {
   //   async function getDataFromService() {
   //     try {
   //       const adData = await getAdvert(params);
@@ -36,7 +35,8 @@ export function AdvertDetail() {
   //     }
   //   }
   //   getDataFromService();
-  // }, [params, navigate]);
+    dispatch(loadAdvert(adId))
+  }, [adId, dispatch]);
 
   return (
     <Layout>
