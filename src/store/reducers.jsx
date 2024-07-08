@@ -6,7 +6,10 @@ export const defaultState = {
     pending: false,
     error: null,
   },
-  adverts: []
+  adverts: {
+    loaded: false, 
+    data: [],
+  },
 };
 
 export function auth(state = defaultState.auth, action) {
@@ -15,6 +18,17 @@ export function auth(state = defaultState.auth, action) {
       return true;
     case t.AUTH_LOGOUT:
       return false;
+    default:
+      return state;
+  }
+}
+
+export function adverts(state = defaultState.adverts, action) {
+  switch (action.type) {
+    case t.ADVERTS_LOADED_FULFILLED:
+      return {...state, loaded: true, data: action.payload};
+    case t.ADVERTS_CREATED:
+      return {...state, data: [action.payload, ...state]};
     default:
       return state;
   }
@@ -38,15 +52,4 @@ export function ui(state = defaultState.ui, action) {
   }
 
   return state;
-}
-
-export function adverts(state = defaultState.adverts, action) {
-  switch (action.type) {
-    case t.ADVERTS_LOADED:
-      return action.payload;
-    case t.ADVERTS_CREATED:
-      return [action.payload, ...state];
-    default:
-      return state;
-  }
 }

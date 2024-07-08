@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import Layout from "../../componentes/layout/Layout";
 import Advert from "./components/Advert";
 import styles from "./AdvertsList.module.css";
-import { getAdverts } from "./service";
 import { useEffect, useState } from "react";
 import RadioButton from "../../componentes/shared/RadioButton";
 import { useNavigate } from "react-router-dom";
 import NotificationMSG from "../../componentes/shared/Notification";
 import FormField from "../../componentes/shared/FormField";
 import { useDispatch, useSelector } from "react-redux";
-import { advertsLoaded } from "../../store/actions";
+import { loadAdverts } from "../../store/actions";
+import { getAdverts } from "../../store/selectors";
 
 export function AdvertsList() {
 
@@ -40,7 +40,7 @@ export function AdvertsList() {
   };
 
   const getFilterAdverts = () => {
-    const ads = [...adverts];
+    // const ads = [...adverts];
 
     let sale = true || false;
     if (typeFilter === "sell") {
@@ -50,7 +50,7 @@ export function AdvertsList() {
     }
 
     setAdsFilter(
-      ads.filter(
+      adverts.filter(
         (ad) =>
           ad.sale === sale &&
           ad.price >= (minprice === "" ? ad.price : minprice) &&
@@ -74,16 +74,17 @@ export function AdvertsList() {
 
   useEffect(() => {
     try {
-      getAdverts().then((ads) => {
-        dispatch(advertsLoaded(ads))
-        //setAdverts(ads);
-        setAdsFilter(ads);
-      });
+      dispatch(loadAdverts())
+      // getAdverts().then((ads) => {
+      //   dispatch(advertsLoaded(ads))
+      //   //setAdverts(ads);
+      //   setAdsFilter(ads);
+      // });
+      setAdsFilter(adverts)
     } catch (error) {
       if (error.status === 404) navigate("/404");
     }
-  }, [navigate, dispatch]);
-
+  }, [navigate, dispatch, adverts]);
   return (
     <Layout>
       <div className={styles.filterContainer}>

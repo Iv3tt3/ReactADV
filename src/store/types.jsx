@@ -6,5 +6,8 @@ export const AUTH_LOGOUT = 'auth/logout';
 
 export const UI_RESET_ERROR = 'ui/reset-error';
 
-export const ADVERTS_LOADED = 'adverts/loaded';
+export const ADVERTS_LOADED_PENDING = 'adverts/loaded/pending';
+export const ADVERTS_LOADED_FULFILLED = 'adverts/loaded/fulfilled';
+export const ADVERTS_LOADED_REJECTED = 'adverts/loaded/rejected';
+
 export const ADVERTS_CREATED = 'adverts/created';
