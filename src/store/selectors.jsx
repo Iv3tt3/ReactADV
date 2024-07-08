@@ -4,3 +4,5 @@ export const getAdverts = state => state.adverts;
 
 export const getAdvert = advertId => state => 
     getAdverts(state).find(advert => advert.id === advertId);
+
+export const getUi = state => state.ui;

@@ -1,6 +1,6 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { AdvertsList } from "./pages/adverts/AdvertsList.jsx";
-import { LoginPage } from "./pages/auth/Login";
+import  LoginPage  from "./pages/auth/Login.jsx";
 import { AdvertDetail } from "./pages/adverts/AdvertDetail";
 import { NewAdvert } from "./pages/adverts/NewAdvert.jsx";
 import RequireAuth from "./pages/auth/RequireAuth.jsx";

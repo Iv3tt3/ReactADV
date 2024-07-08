@@ -3,24 +3,26 @@ import { useState } from "react";
 import Layout from "../../componentes/layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
-import { useDispatch } from "react-redux";
-import { authLogin } from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { authLogin, uiResetError } from "../../store/actions";
+import { getUi } from "../../store/selectors";
 
-export function LoginPage() {
+export default function LoginPage() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const { pending: isFetching, error } = useSelector(getUi);
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
   const [checked, setChecked] = useState(false);
 
-  const [isFetching, setIsFetching] = useState(false);
+  // const [isFetching, setIsFetching] = useState(false);
 
   const { email, password } = formData;
 
@@ -36,18 +38,17 @@ export function LoginPage() {
       //   },
       //   checked
       // );
-      
+
       // setIsFetching(false);
       navigate(location.state?.pathname || "/");
     } catch (error) {
       // setIsFetching(true);
       // setError(error);
-      console.log(error)
+      console.log(error);
     }
   };
 
   const handleChange = (event) => {
-    setIsFetching(false);
     setFormData((currentData) => ({
       ...currentData,
       [event.target.name]: event.target.value,
@@ -59,8 +60,7 @@ export function LoginPage() {
   };
 
   const resetError = () => {
-    setError(null);
-    setIsFetching(false);
+    dispatch(uiResetError());
   };
 
   return (
@@ -95,7 +95,11 @@ export function LoginPage() {
             Log in
           </Button>
         </form>
-        <div onClick={resetError}>{error ? error.statusText : null}</div>
+        {error && (
+          <div className={styles.errorMsg} onClick={resetError}>
+            {error.message}
+          </div>
+        )}
       </Layout>
     </div>
   );
