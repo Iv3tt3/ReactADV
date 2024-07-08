@@ -16,11 +16,12 @@ export const authLoginRejected = (error) => ({
 });
 
 export const authLogin = (credentials, checked) => {
-  return async function (dispatch, _getState, { services: { auth } }) {
+  return async function (dispatch, _getState, { services: { auth }, router }) {
     try {
       dispatch(authLoginPending());
       await auth.login(credentials, checked);
       dispatch(authLoginFulfilled());
+      router.navigate(router.state.location.state?.pathname || "/");
     } catch (error) {
       dispatch(authLoginRejected(error));
       console.log(error);

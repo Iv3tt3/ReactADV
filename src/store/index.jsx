@@ -12,11 +12,11 @@ const reducer = combineReducers(reducers);
 
 const composeEnhancers = composeWithDevTools({ actionCreators });
 
-export default function configureStore(preloadedState) {
+export default function configureStore(preloadedState, {router}) {
   const store = createStore(
     reducer,
     preloadedState,
-    composeEnhancers(applyMiddleware(withExtraArgument({ services: { auth, adverts } })))
+    composeEnhancers(applyMiddleware(withExtraArgument({ services: { auth, adverts }, router })))
   );
   return store;
 }
