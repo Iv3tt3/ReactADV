@@ -32,6 +32,13 @@ export const authLogout = () => ({
   type: t.AUTH_LOGOUT,
 });
 
+export const logoutAction = () => {
+  return function (dispatch, getState, { services: { auth } }) {
+    auth.logout();
+    dispatch(authLogout());
+  };
+};
+
 export const uiResetError = () => ({
   type: t.UI_RESET_ERROR,
 });
