@@ -2,12 +2,12 @@ import { useRef, useState } from "react";
 import Layout from "../../componentes/layout/Layout";
 import Button from "../../componentes/shared/Button";
 import FormField from "../../componentes/shared/FormField";
-import { getAdvert, postAdvert } from "./service";
+// import { postAdvert } from "./service";
 import { useNavigate } from "react-router-dom";
 import styles from "./Newadvert.module.css";
 import RadioButton from "../../componentes/shared/RadioButton";
 import { useDispatch } from "react-redux";
-import { advertCreated } from "../../store/actions";
+import { createAd } from "../../store/actions";
 
 export function NewAdvert() {
   const navigate = useNavigate();
@@ -32,23 +32,28 @@ export function NewAdvert() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      setIsFetching(true);
-      const newAdvert = await postAdvert({
-        name,
-        price,
-        sale,
-        tags: selectedTags.join(),
-        photo: fileInputRef.current.files[0],
-      });
-      const advert = await getAdvert(newAdvert.id)
-      dispatch(advertCreated(advert))
-      setIsFetching(false);
-      navigate("/");
-    } catch (error) {
-      setIsFetching(true);
-      setError(error);
-    }
+    await dispatch(createAd({
+          name,
+          price,
+          sale,
+          tags: selectedTags.join(),
+          photo: fileInputRef.current.files[0],
+        }))
+    // try {
+    //   setIsFetching(true);
+    //   await postAdvert({
+    //     name,
+    //     price,
+    //     sale,
+    //     tags: selectedTags.join(),
+    //     photo: fileInputRef.current.files[0],
+    //   });
+    //   setIsFetching(false);
+    navigate("/");
+    // } catch (error) {
+    //   setIsFetching(true);
+    //   setError(error);
+    // }
   };
 
   const handleChange = (event) => {

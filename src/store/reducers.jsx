@@ -28,7 +28,7 @@ export function adverts(state = defaultState.adverts, action) {
     case t.ADVERTS_LOADED_FULFILLED:
       return {...state, loaded: true, data: action.payload};
     case t.ADVERTS_CREATED:
-      return {...state, data: [action.payload, ...state]};
+      return {...state, data: [...state.data, action.payload]};
     default:
       return state;
   }
