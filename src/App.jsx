@@ -5,16 +5,17 @@ import { AdvertDetail } from "./pages/adverts/AdvertDetail";
 import { NewAdvert } from "./pages/adverts/NewAdvert.jsx";
 import RequireAuth from "./pages/auth/RequireAuth.jsx";
 import { useSelector } from "react-redux";
-import { getIsLogged } from "./store/selectors.jsx";
+import { getIsLogged, getUi } from "./store/selectors.jsx";
 
 function App() {
   const isLogged = useSelector(getIsLogged)
+  const error = useSelector(getUi)
 
   return (
     <Routes>
       <Route
         path="/login"
-        element={isLogged ? <Navigate to="/" /> : <LoginPage />}
+        element={isLogged && !error ? <Navigate to="/" /> : <LoginPage />}
       />
 
       <Route
