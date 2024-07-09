@@ -19,7 +19,10 @@ export default function configureStore(preloadedState, { router }) {
     composeEnhancers(
       applyMiddleware(
         withExtraArgument({ services: { auth, adverts }, router }),
-        errorMiddleware(router)
+        errorMiddleware(router, {
+          401: "/login",
+          404: "/404",
+        })
       )
     )
   );
