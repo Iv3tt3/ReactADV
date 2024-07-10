@@ -2,10 +2,23 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10pt;
+  gap:10pt;
 }
-.textInput {
-  margin: 10pt;
+
+.textInput label {
+  margin: 5pt;
+}
+.textInput span {
+  color: rgb(84, 84, 84);
+  padding-top: 50pt;
+  padding: 10pt;
+}
+.textInput ::placeholder {
+  color: lightgrey;
+}
+
+.textInput input {
+  margin: 0 10pt;
   padding: 10pt;
   border: 1pt solid lightgrey;
   border-radius: 5pt;

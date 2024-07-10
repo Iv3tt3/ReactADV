@@ -35,22 +35,47 @@ exports[`LoginPage > snapshot 1`] = `
         <form
           class="_loginForm_fd6bf1"
         >
-          <input
+          <div
             class="_textInput_fd6bf1"
-            name="email"
-            type="text"
-            value=""
-          />
-          <input
+          >
+            <label>
+              <span>
+                Email
+              </span>
+              <input
+                autocomplete="off"
+                class="formField-input"
+                id="email"
+                name="email"
+                placeholder="admin@example.com"
+                type="text"
+                value=""
+              />
+            </label>
+          </div>
+          <div
             class="_textInput_fd6bf1"
-            name="password"
-            type="password"
-            value=""
-          />
+          >
+            <label>
+              <span>
+                Password
+              </span>
+              <input
+                autocomplete="off"
+                class="formField-input"
+                id="password"
+                name="password"
+                placeholder="123456"
+                type="password"
+                value=""
+              />
+            </label>
+          </div>
           <label>
             Stay Logged in
             <input
               class="_checkInput_fd6bf1"
+              id="checkbox"
               type="checkbox"
             />
           </label>

@@ -5,6 +5,7 @@ import styles from "./Login.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authLogin, uiResetError } from "../../store/actions";
 import { getUi } from "../../store/selectors";
+import FormField from "../../componentes/shared/FormField";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -26,7 +27,8 @@ export default function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-      dispatch(authLogin(formData, checked));
+    console.log('...', authLogin)
+    dispatch(authLogin(formData, checked));
   };
 
   const handleChange = (event) => {
@@ -49,19 +51,25 @@ export default function LoginPage() {
       <Layout>
         <h1>Login to your account</h1>
         <form onSubmit={handleSubmit} className={styles.loginForm}>
-          <input
+          <FormField
+            label="Email"
             className={styles.textInput}
             type="text"
             name="email"
             value={email}
+            placeholder="admin@example.com"
             onChange={handleChange}
+            id="email"
           />
-          <input
+          <FormField
+            label="Password"
             className={styles.textInput}
             type="password"
             name="password"
             value={password}
+            placeholder="123456"
             onChange={handleChange}
+            id="password"
           />
           <label>
             Stay Logged in
@@ -70,6 +78,7 @@ export default function LoginPage() {
               type="checkbox"
               checked={checked}
               onChange={handleCheck}
+              id="checkbox"
             />
           </label>
           <Button type="submit" disabled={!email || !password || isFetching}>
