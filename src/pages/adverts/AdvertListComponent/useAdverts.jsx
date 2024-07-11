@@ -1,14 +1,16 @@
-// useAdverts.js
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAdverts } from "../../../store/selectors";
-import { loadAdverts } from "../../../store/actions";
+import { getAdverts, getSelectedTags, getTags } from "../../../store/selectors";
+import { addSelectedTag, loadAdverts, loadTags, selectedTags } from "../../../store/actions";
+
 
 export const useAdverts = () => {
   const dispatch = useDispatch();
   const adverts = useSelector(getAdverts);
   const navigate = useNavigate();
+  const tags = useSelector(getTags);
+  const checkedTags = useSelector(getSelectedTags)
 
   const [adsFilter, setAdsFilter] = useState([]);
   const [typeFilter, setTypeFilter] = useState("");
@@ -22,6 +24,7 @@ export const useAdverts = () => {
   useEffect(() => {
     try {
       dispatch(loadAdverts());
+      dispatch(loadTags())
       setAdsFilter(adverts);
     } catch (error) {
       if (error.status === 404) navigate("/404");
@@ -34,6 +37,16 @@ export const useAdverts = () => {
       [event.target.name]: event.target.value,
     }));
   };
+
+  const handleCheckboxChange = (tag) => {
+    if (checkedTags.includes(tag)){
+      const newtags = checkedTags.filter(item => item !== tag)
+      dispatch(selectedTags(newtags))
+    }
+    else {
+      dispatch(addSelectedTag(tag))
+    }
+  }
 
   const getFilterAdverts = () => {
     let sale = true || false;
@@ -64,6 +77,42 @@ export const useAdverts = () => {
     setIsFilter(false);
   };
 
+  const arrayTags = []
+  tags.map(tag => {
+    const item = {
+      label: tag,
+      id: tag,
+      value: tag,
+      onChange: () => handleCheckboxChange(tag),
+      checked: checkedTags.includes(tag)
+    }
+    arrayTags.push(item)}
+  )
+
+  // const arrayTags = [
+  //   {
+  //     label: "All",
+  //     id: "all",
+  //     value: `${typeFilter}`,
+  //     onChange: () => setTypeFilter("all"),
+  //     checked: typeFilter === "all",
+  //   },
+  //   {
+  //     label: "To Sell",
+  //     id: "sell",
+  //     value: `${typeFilter}`,
+  //     onChange: () => setTypeFilter("sell"),
+  //     checked: typeFilter === "sell",
+  //   },
+  //   {
+  //     label: "To Buy",
+  //     id: "buy",
+  //     value: `${typeFilter}`,
+  //     onChange: () => setTypeFilter("buy"),
+  //     checked: typeFilter === "buy",
+  //   },
+  // ];
+
   return {
     adverts,
     adsFilter,
@@ -74,5 +123,6 @@ export const useAdverts = () => {
     getFilterAdverts,
     resetFilters,
     setTypeFilter,
+    arrayTags
   };
 };

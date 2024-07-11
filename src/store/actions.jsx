@@ -1,4 +1,4 @@
-import { areAdvertsLoaded, getAdvert } from "./selectors.jsx";
+import { areAdvertsLoaded, areTagsLoaded, getAdvert } from "./selectors.jsx";
 import * as t from "./types.jsx";
 
 export const authLoginPending = () => ({
@@ -138,3 +138,44 @@ export const loadAdvert = (advertId) => {
     }
   };
 };
+
+export const tagsLoadedPending = () => ({
+  type: t.TAGS_LOADED_PENDING,
+});
+
+export const tagsLoadedFulfilled = (tags) => ({
+  type: t.TAGS_LOADED_FULFILLED,
+  payload: tags,
+});
+
+export const tagsLoadedRejected = (error) => ({
+  type: t.TAGS_LOADED_REJECTED,
+  payload: error,
+  error: true,
+});
+
+export const loadTags = () => {
+  return async function (dispatch, getState, { services: { adverts } }) {
+    try {
+      const state = getState();
+      if (areTagsLoaded(state)) {
+        return;
+      }
+      dispatch(tagsLoadedPending());
+      const tagsData = await adverts.getTags();
+      dispatch(tagsLoadedFulfilled(tagsData));
+    } catch (error) {
+      dispatch(tagsLoadedRejected(error));
+    }
+  };
+};
+
+export const selectedTags = (tags) => ({
+  type: t.TAGS_SELECTED,
+  payload: tags,
+});
+
+export const addSelectedTag = (tag) => ({
+  type: t.TAGS_SELECTED_ADD,
+  payload: tag,
+});

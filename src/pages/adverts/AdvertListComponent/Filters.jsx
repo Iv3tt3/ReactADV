@@ -2,6 +2,7 @@ import styles from "./Filters.module.css";
 import RadioButton from "../../../componentes/shared/RadioButton";
 import FormField from "../../../componentes/shared/FormField";
 import PropTypes from "prop-types";
+import CheckBox from "../../../componentes/shared/Checkbox";
 
 export default function Filters({
   isFilter,
@@ -12,7 +13,10 @@ export default function Filters({
   setTypeFilter,
   getFilterAdverts,
   resetFilters,
+  arrayTags
 }) {
+
+
   return (
     <div className={styles.filterContainer}>
       {!isFilter && (
@@ -48,6 +52,7 @@ export default function Filters({
             />
           </div>
           <div className={styles.priceFilterContainer}>
+            <p>Filter by price</p>
             <FormField
               type="number"
               name="minprice"
@@ -65,6 +70,13 @@ export default function Filters({
               value={maxprice}
               onChange={handleChange}
               step="0.01"
+            />
+          </div>
+          <div className={styles.priceFilterContainer}>
+            <CheckBox
+              className="filerByTags"
+              title="Filter by tags"
+              arrayInput={arrayTags}
             />
           </div>
         </div>
@@ -101,12 +113,13 @@ export default function Filters({
 }
 
 Filters.propTypes = {
-  isFilter: PropTypes.boolean,
+  isFilter: PropTypes.bool,
   typeFilter: PropTypes.string,
-  minprice: PropTypes.number,
-  maxprice: PropTypes.number,
-  handleChange: PropTypes.function,
-  setTypeFilter: PropTypes.string,
-  getFilterAdverts: PropTypes.function,
-  resetFilters: PropTypes.function,
+  minprice: PropTypes.string,
+  maxprice: PropTypes.string,
+  handleChange: PropTypes.func,
+  setTypeFilter: PropTypes.func,
+  getFilterAdverts: PropTypes.func,
+  resetFilters: PropTypes.func,
+  arrayTags: PropTypes.array,
 };

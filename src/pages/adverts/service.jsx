@@ -12,6 +12,11 @@ export const getAdvert = (tweetId) => {
   return client.get(url);
 };
 
+export const getTags = () => {
+  const url = `${advertsURL}/tags`;
+  return client.get(url);
+};
+
 export const postAdvert = (data) => {
   return client.post(`${advertsURL}`, data, {
     headers: {

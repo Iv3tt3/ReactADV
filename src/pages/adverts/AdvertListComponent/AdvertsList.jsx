@@ -16,6 +16,7 @@ export default function AdvertsList() {
     getFilterAdverts,
     resetFilters,
     setTypeFilter,
+    arrayTags,
   } = useAdverts();
 
   const { minprice, maxprice } = PricesFilter;
@@ -31,6 +32,7 @@ export default function AdvertsList() {
         setTypeFilter={setTypeFilter}
         getFilterAdverts={getFilterAdverts}
         resetFilters={resetFilters}
+        arrayTags={arrayTags}
       />
       <ul className={styles.advertsList}>
         {adsFilter.length !== 0 ? (
