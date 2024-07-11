@@ -1,15 +1,15 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { AdvertsList } from "./pages/adverts/AdvertsList.jsx";
-import  LoginPage  from "./pages/auth/Login.jsx";
+import LoginPage from "./pages/auth/Login.jsx";
 import { AdvertDetail } from "./pages/adverts/AdvertDetail";
 import { NewAdvert } from "./pages/adverts/NewAdvert.jsx";
 import RequireAuth from "./pages/auth/RequireAuth.jsx";
 import { useSelector } from "react-redux";
 import { getIsLogged, getUi } from "./store/selectors.jsx";
+import AdvertsList from "./pages/adverts/AdvertListComponent/AdvertsList.jsx";
 
 function App() {
-  const isLogged = useSelector(getIsLogged)
-  const error = useSelector(getUi)
+  const isLogged = useSelector(getIsLogged);
+  const error = useSelector(getUi);
 
   return (
     <Routes>

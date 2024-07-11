@@ -30,18 +30,6 @@
   text-justify: center;
 }
 
-.filterContainer {
-  background-color: rgb(243, 243, 243);
-  width: 100%;
-  padding: 20pt;
-  border-radius: 10pt;
-}
-
-.filterButton {
-  padding: 10pt;
-  margin: 10pt;
-}
-
 @media (min-width: 400px) {
   .advertContainer {
     width: 400px;
