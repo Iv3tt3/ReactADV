@@ -27,7 +27,6 @@ export default function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('...', authLogin)
     dispatch(authLogin(formData, checked));
   };
 

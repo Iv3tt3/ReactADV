@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import LoginPage from "../Login";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
@@ -23,38 +23,39 @@ describe("LoginPage", () => {
       </Provider>
     );
 
-  test("snapshot", () => {
+  it("snapshot", () => {
     const { container } = renderComponent();
     expect(container).toMatchSnapshot();
   });
 
-  test("should dispatch authLogin action"),
-    () => {
-      const email = "email";
-      const password = "password";
-      const checked = "checked";
+  it("should dispatch authLogin", () => {
+    const email = "email";
+    const password = "password";
+    const checked = true;
 
-      const emailInput = screen.getByRole("textbox", {
-        name: /email/i,
-      });
-      const passwordInput = screen.getByText(/password/i);
-      const checkInput = screen.getByRole("checkbox", {
-        name: /stay logged in/i,
-      });
-      const submitButton = screen.getByRole("button", {
-        name: /log in/i,
-      });
-      expect(submitButton).toBeDisabled();
+    const emailInput = screen.getByRole("textbox", {
+      name: /email/i,
+    });
 
-      fireEvent.change(emailInput, { target: { value: email } });
-      fireEvent.change(passwordInput, { target: { value: password } });
-      fireEvent.click(checkInput, { target: { value: checked } });
+    const passwordInput = screen.getByPlaceholderText(/123456/i);
 
-      expect(submitButton).toBeEnabled();
+    const checkInput = screen.getByRole("checkbox", {
+      name: /stay logged in/i,
+    });
+    const submitButton = screen.getByRole("button", {
+      name: /log in/i,
+    });
+    expect(submitButton).toHaveProperty("disabled", true);
 
-      fireEvent.click(submitButton);
+    fireEvent.change(emailInput, { target: { value: email } });
+    fireEvent.change(passwordInput, { target: { value: password } });
+    fireEvent.click(checkInput, { target: { value: checked } });
 
-      expect(authLogin).toHaveBeenCalledWith({email, password}, checked)
+    expect(submitButton).toHaveProperty("disabled", false);
 
-    };
+    fireEvent.click(submitButton);
+
+    expect(authLogin).toHaveBeenCalledOnce;
+    expect(authLogin).toHaveBeenCalledWith({ email, password }, checked);
+  });
 });
