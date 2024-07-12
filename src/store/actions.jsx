@@ -139,6 +139,30 @@ export const loadAdvert = (advertId) => {
   };
 };
 
+
+export const advertDelete = (advertId) => ({
+  type: t.ADVERT_DELETE,
+  payload: advertId,
+});
+
+export const advertDeleteRejected = (error) => ({
+  type: t.ADVERT_DELETE_REJECTED,
+  payload: error,
+  error: true,
+});
+
+export const deleteAdvert = (advertId) => {
+  return async function (dispatch, getState, { services: { adverts }, router }) {
+    try {
+      await adverts.deleteAdvert(advertId);
+      dispatch(advertDelete(advertId));
+      router.navigate("/");
+    } catch (error) {
+      dispatch(advertDeleteRejected(error));
+    }
+  };
+};
+
 export const tagsLoadedPending = () => ({
   type: t.TAGS_LOADED_PENDING,
 });
@@ -177,5 +201,10 @@ export const selectedTags = (tags) => ({
 
 export const addSelectedTag = (tag) => ({
   type: t.TAGS_SELECTED_ADD,
+  payload: tag,
+});
+
+export const addTag = (tag) => ({
+  type: t.TAGS_ADD,
   payload: tag,
 });

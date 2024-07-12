@@ -36,6 +36,15 @@ export function adverts(state = defaultState.adverts, action) {
       return { ...state, data: [...state.data, action.payload] };
     case t.ADVERT_DETAIL_FULFILLED:
       return { ...state, data: [action.payload] };
+    case t.ADVERT_DELETE:
+      return {
+        ...state,
+        data: [
+          ...state.data.filter((item) => {
+            item !== action.payload;
+          }),
+        ],
+      };
     default:
       return state;
   }
@@ -65,6 +74,8 @@ export function tags(state = defaultState.tags, action) {
   switch (action.type) {
     case t.TAGS_LOADED_FULFILLED:
       return { ...state, loaded: true, data: action.payload };
+    case t.TAGS_ADD:
+      return { ...state, data: [...state.data, action.payload]}
     case t.TAGS_SELECTED:
       return { ...state, selected: action.payload };
     case t.TAGS_SELECTED_ADD:

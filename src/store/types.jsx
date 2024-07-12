@@ -14,6 +14,9 @@ export const ADVERTS_CREATED_PENDING = "adverts/created/pending";
 export const ADVERTS_CREATED_FULFILLED = "adverts/created/fulfilled";
 export const ADVERTS_CREATED_REJECTED = "adverts/created/rejected";
 
+export const ADVERT_DELETE = "adverts/delete";
+export const ADVERT_DELETE_REJECTED = "adverts/delete/rejected";
+
 export const ADVERT_DETAIL_PENDING = "advert/detail/pending";
 export const ADVERT_DETAIL_FULFILLED = "advert/detail/fulfilled";
 export const ADVERT_DETAIL_REJECTED = "advert/detail/rejected";
@@ -21,6 +24,8 @@ export const ADVERT_DETAIL_REJECTED = "advert/detail/rejected";
 export const TAGS_LOADED_PENDING = "tags/loaded/pending";
 export const TAGS_LOADED_FULFILLED = "tags/loaded/fulfilled";
 export const TAGS_LOADED_REJECTED = "tags/loaded/rejected";
+
+export const TAGS_ADD = "tags/add"
 
 export const TAGS_SELECTED = "tags/selected";
 export const TAGS_SELECTED_ADD = "tags/selected/add";

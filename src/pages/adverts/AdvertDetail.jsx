@@ -1,12 +1,11 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Layout from "../../componentes/layout/Layout";
-import { deleteAdvert } from "./service";
 import { useEffect, useState } from "react";
 import Advert from "./components/Advert";
 import Button from "../../componentes/shared/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdvert } from "../../store/selectors";
-import { loadAdvert } from "../../store/actions";
+import { deleteAdvert, loadAdvert } from "../../store/actions";
 
 export function AdvertDetail() {
   
@@ -14,27 +13,14 @@ export function AdvertDetail() {
 
   const ad = useSelector(getAdvert(adId))
   const dispatch = useDispatch()
-  const navigate = useNavigate();
-
-  // const [ad, setAd] = useState(null);
 
   const [showConfirm, setShowCofirm] = useState(false);
 
   const deleteAd = () => {
-    deleteAdvert(adId);
-    navigate("/");
+    dispatch(deleteAdvert(adId));
   };
 
   useEffect(() => {
-  //   async function getDataFromService() {
-  //     try {
-  //       const adData = await getAdvert(params);
-  //       setAd(adData);
-  //     } catch (error) {
-  //       if (error.status === 404) navigate("/404");
-  //     }
-  //   }
-  //   getDataFromService();
     dispatch(loadAdvert(adId))
   }, [adId, dispatch]);
 

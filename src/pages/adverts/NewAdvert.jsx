@@ -1,23 +1,25 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Layout from "../../componentes/layout/Layout";
 import Button from "../../componentes/shared/Button";
 import FormField from "../../componentes/shared/FormField";
 import styles from "./Newadvert.module.css";
 import RadioButton from "../../componentes/shared/RadioButton";
-import { useDispatch } from "react-redux";
-import { createAd } from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { addTag, createAd, loadTags } from "../../store/actions";
+import { getTags } from "../../store/selectors";
 
 export function NewAdvert() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const envTags = import.meta.env.VITE_TAGS_LIST.split(",");
+  const adsTags = useSelector(getTags);
+  const tags = [...new Set([...envTags, ...adsTags])];
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    sale: true,
+    sale: null,
   });
 
   const { name, price, sale } = formData;
-
-  const tags = ["lifestyle", "mobile", "motor", "work"];
 
   const [selectedTags, setSelectedTags] = useState([]);
 
@@ -29,13 +31,28 @@ export function NewAdvert() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await dispatch(createAd({
-          name,
-          price,
-          sale,
-          tags: selectedTags.join(),
-          photo: fileInputRef.current.files[0],
-        }))
+    await dispatch(
+      createAd({
+        name,
+        price,
+        sale,
+        tags: selectedTags.join(),
+        photo: fileInputRef.current.files[0],
+      })
+    );
+
+    if (selectedTags.length === 1) {
+      if (!adsTags.includes(selectedTags[0])) {
+        dispatch(addTag(selectedTags[0]));
+      }
+    } else {
+      selectedTags.map(tag => {
+        if (!adsTags.includes(tag)) {
+          dispatch(addTag(tag));
+        }
+      })
+    }
+
   };
 
   const handleChange = (event) => {
@@ -66,7 +83,10 @@ export function NewAdvert() {
     setError(null);
     setIsFetching(false);
   };
-  console.log(sale);
+
+  useEffect(() => {
+    dispatch(loadTags());
+  }, [dispatch]);
 
   return (
     <Layout>
@@ -141,7 +161,13 @@ export function NewAdvert() {
 
         <Button
           type="submit"
-          disabled={!name || !price || selectedTags.length === 0 || isFetching}
+          disabled={
+            !name ||
+            !price ||
+            sale === null ||
+            selectedTags.length === 0 ||
+            isFetching
+          }
         >
           Publish new ad
         </Button>
