@@ -132,11 +132,9 @@ To configure the environment variables, follow these steps:
 
      ```env
      VITE_BASE_URL=http://localhost:3001/
-     VITE_TAGS_LIST=lifestyle,motor,sports,tech
      ```
 
    - `VITE_BASE_URL`: Set this to the URL of your API. The default is `http://localhost:3001/`.
-   - `VITE_TAGS_LIST`: Define the list of tags available for creating adverts. Tags must be formatted without spaces and separated by commas.
 
 3. **Save the Changes:**
    - Ensure you save the `.env` file after making the necessary changes.

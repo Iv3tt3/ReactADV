@@ -5,14 +5,12 @@ import FormField from "../../componentes/shared/FormField";
 import styles from "./Newadvert.module.css";
 import RadioButton from "../../componentes/shared/RadioButton";
 import { useDispatch, useSelector } from "react-redux";
-import { addTag, createAd, loadTags } from "../../store/actions";
+import { createAd, loadTags } from "../../store/actions";
 import { getTags } from "../../store/selectors";
 
 export function NewAdvert() {
   const dispatch = useDispatch();
-  const envTags = import.meta.env.VITE_TAGS_LIST.split(",");
-  const adsTags = useSelector(getTags);
-  const tags = [...new Set([...envTags, ...adsTags])];
+  const tags = useSelector(getTags)
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -31,17 +29,6 @@ export function NewAdvert() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (selectedTags.length === 1) {
-      if (!adsTags.includes(selectedTags[0])) {
-        dispatch(addTag(selectedTags[0]));
-      }
-    } else {
-      selectedTags.map((tag) => {
-        if (!adsTags.includes(tag)) {
-          dispatch(addTag(tag));
-        }
-      });
-    }
     await dispatch(
       createAd({
         name,

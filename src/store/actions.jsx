@@ -1,4 +1,4 @@
-import { areAdvertsLoaded, getAdvert, getTagsFromAds } from "./selectors.jsx";
+import { areAdvertsLoaded, areTagsLoaded, getAdvert } from "./selectors.jsx";
 import * as t from "./types.jsx";
 
 export const authLoginPending = () => ({
@@ -187,17 +187,14 @@ export const tagsLoadedRejected = (error) => ({
 });
 
 export const loadTags = () => {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, { services: { adverts } }) {
     try {
       const state = getState();
-      //To resolve problem with API. Api returns 4 tags when there is 6 differen tags in my ads. I will use info in redux state and avoid API request
-
-      // if (areTagsLoaded(state)) {
-      //   return;
-      // }
-      //const tagsData = await adverts.getTags();
+      if (areTagsLoaded(state)) {
+        return;
+      }
       dispatch(tagsLoadedPending());
-      const tagsData = getTagsFromAds(state);
+      const tagsData = await adverts.getTags();
       dispatch(tagsLoadedFulfilled(tagsData));
     } catch (error) {
       dispatch(tagsLoadedRejected(error));
@@ -212,10 +209,5 @@ export const selectedTags = (tags) => ({
 
 export const addSelectedTag = (tag) => ({
   type: t.TAGS_SELECTED_ADD,
-  payload: tag,
-});
-
-export const addTag = (tag) => ({
-  type: t.TAGS_ADD,
   payload: tag,
 });
