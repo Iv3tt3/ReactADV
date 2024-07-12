@@ -3,6 +3,8 @@ import RadioButton from "../../../componentes/shared/RadioButton";
 import FormField from "../../../componentes/shared/FormField";
 import PropTypes from "prop-types";
 import CheckBox from "../../../componentes/shared/Checkbox";
+import { useSelector } from "react-redux";
+import { getSelectedTags } from "../../../store/selectors";
 
 export default function Filters({
   isFilter,
@@ -16,6 +18,7 @@ export default function Filters({
   arrayTags
 }) {
 
+  const checkedTags = useSelector(getSelectedTags)
 
   return (
     <div className={styles.filterContainer}>
@@ -90,12 +93,13 @@ export default function Filters({
           <h3>Price:</h3>
           <p>Min price = {minprice === "" ? "No filter" : `${minprice} EUR`}</p>
           <p>Max price = {maxprice === "" ? "No filter" : `${maxprice} EUR`}</p>
+          <p>Tags: {checkedTags.join(", ")}</p>
         </div>
       )}
       <button
         className={styles.filterButton}
         disabled={
-          isFilter || (minprice === "" && maxprice === "" && typeFilter === "")
+          isFilter || (minprice === "" && maxprice === "" && typeFilter === "" && checkedTags.length === 0)
         }
         onClick={getFilterAdverts}
       >

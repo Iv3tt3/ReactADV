@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdverts, getSelectedTags, getTags } from "../../../store/selectors";
-import { addSelectedTag, loadAdverts, loadTags, selectedTags } from "../../../store/actions";
-
+import {
+  addSelectedTag,
+  loadAdverts,
+  loadTags,
+  selectedTags,
+} from "../../../store/actions";
 
 export const useAdverts = () => {
   const dispatch = useDispatch();
   const adverts = useSelector(getAdverts);
   const navigate = useNavigate();
   const tags = useSelector(getTags);
-  const checkedTags = useSelector(getSelectedTags)
+  const checkedTags = useSelector(getSelectedTags);
 
   const [adsFilter, setAdsFilter] = useState([]);
   const [typeFilter, setTypeFilter] = useState("");
@@ -24,7 +28,7 @@ export const useAdverts = () => {
   useEffect(() => {
     try {
       dispatch(loadAdverts());
-      dispatch(loadTags())
+      dispatch(loadTags());
       setAdsFilter(adverts);
     } catch (error) {
       if (error.status === 404) navigate("/404");
@@ -39,16 +43,30 @@ export const useAdverts = () => {
   };
 
   const handleCheckboxChange = (tag) => {
-    if (checkedTags.includes(tag)){
-      const newtags = checkedTags.filter(item => item !== tag)
-      dispatch(selectedTags(newtags))
+    if (checkedTags.includes(tag)) {
+      const newtags = checkedTags.filter((item) => item !== tag);
+      dispatch(selectedTags(newtags));
+    } else {
+      dispatch(addSelectedTag(tag));
     }
-    else {
-      dispatch(addSelectedTag(tag))
-    }
-  }
+  };
 
   const getFilterAdverts = () => {
+
+    let advertsFilterByTag = [];
+    if (checkedTags.length > 0) {
+      adverts.map((advert) => {
+        advert.tags.map((itemTag) => {
+          if (
+            checkedTags.includes(itemTag) &&
+            !advertsFilterByTag.includes(advert)
+          ) {
+            advertsFilterByTag.push(advert);
+          }
+        });
+      });
+    }
+
     let sale = true || false;
     if (typeFilter === "sell") {
       sale = true;
@@ -57,7 +75,7 @@ export const useAdverts = () => {
     }
 
     setAdsFilter(
-      adverts.filter(
+      advertsFilterByTag.filter(
         (ad) =>
           ad.sale === sale &&
           ad.price >= (minprice === "" ? ad.price : minprice) &&
@@ -75,42 +93,21 @@ export const useAdverts = () => {
     setTypeFilter("");
     setAdsFilter(adverts);
     setIsFilter(false);
+    dispatch(selectedTags([]))
   };
 
-  const arrayTags = []
-  tags.map(tag => {
+  const arrayTags = [];
+  tags.map((tag) => {
     const item = {
       label: tag,
       id: tag,
       value: tag,
       onChange: () => handleCheckboxChange(tag),
-      checked: checkedTags.includes(tag)
-    }
-    arrayTags.push(item)}
-  )
+      checked: checkedTags.includes(tag),
+    };
+    arrayTags.push(item);
+  });
 
-  // const arrayTags = [
-  //   {
-  //     label: "All",
-  //     id: "all",
-  //     value: `${typeFilter}`,
-  //     onChange: () => setTypeFilter("all"),
-  //     checked: typeFilter === "all",
-  //   },
-  //   {
-  //     label: "To Sell",
-  //     id: "sell",
-  //     value: `${typeFilter}`,
-  //     onChange: () => setTypeFilter("sell"),
-  //     checked: typeFilter === "sell",
-  //   },
-  //   {
-  //     label: "To Buy",
-  //     id: "buy",
-  //     value: `${typeFilter}`,
-  //     onChange: () => setTypeFilter("buy"),
-  //     checked: typeFilter === "buy",
-  //   },
   // ];
 
   return {
@@ -123,6 +120,6 @@ export const useAdverts = () => {
     getFilterAdverts,
     resetFilters,
     setTypeFilter,
-    arrayTags
+    arrayTags,
   };
 };
