@@ -90,10 +90,9 @@ export default function Filters({
           <p>
             Type: {typeFilter === "" ? "No filter" : `To ${typeFilter} adverts`}
           </p>
-          <h3>Price:</h3>
           <p>Min price = {minprice === "" ? "No filter" : `${minprice} EUR`}</p>
           <p>Max price = {maxprice === "" ? "No filter" : `${maxprice} EUR`}</p>
-          <p>Tags: {checkedTags.join(", ")}</p>
+          <p>Tags: {checkedTags.length === 0 ? "No filter" : checkedTags.join(", ")}</p>
         </div>
       )}
       <button
