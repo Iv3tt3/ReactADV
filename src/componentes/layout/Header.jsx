@@ -7,8 +7,8 @@ import { logoutAction } from "../../store/actions";
 import { getIsLogged } from "../../store/selectors";
 
 export default function Header() {
-  const isLogged = useSelector(getIsLogged)
-  const dispatch = useDispatch()
+  const isLogged = useSelector(getIsLogged);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logoutAction());

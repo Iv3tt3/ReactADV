@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import PropTypes from "prop-types";
 
-const FormField = forwardRef(({ className, label, ...props}, ref) => {
+const FormField = forwardRef(({ className, label, ...props }, ref) => {
   return (
     <div className={className}>
       <label>

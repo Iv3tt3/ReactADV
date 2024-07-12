@@ -15,10 +15,9 @@ export default function Filters({
   setTypeFilter,
   getFilterAdverts,
   resetFilters,
-  arrayTags
+  arrayTags,
 }) {
-
-  const checkedTags = useSelector(getSelectedTags)
+  const checkedTags = useSelector(getSelectedTags);
 
   return (
     <div className={styles.filterContainer}>
@@ -92,13 +91,20 @@ export default function Filters({
           </p>
           <p>Min price = {minprice === "" ? "No filter" : `${minprice} EUR`}</p>
           <p>Max price = {maxprice === "" ? "No filter" : `${maxprice} EUR`}</p>
-          <p>Tags: {checkedTags.length === 0 ? "No filter" : checkedTags.join(", ")}</p>
+          <p>
+            Tags:{" "}
+            {checkedTags.length === 0 ? "No filter" : checkedTags.join(", ")}
+          </p>
         </div>
       )}
       <button
         className={styles.filterButton}
         disabled={
-          isFilter || (minprice === "" && maxprice === "" && typeFilter === "" && checkedTags.length === 0)
+          isFilter ||
+          (minprice === "" &&
+            maxprice === "" &&
+            typeFilter === "" &&
+            checkedTags.length === 0)
         }
         onClick={getFilterAdverts}
       >

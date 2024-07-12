@@ -17,11 +17,7 @@ export default function LoginPage() {
     password: "",
   });
 
-  // const [error, setError] = useState(null);
-
   const [checked, setChecked] = useState(false);
-
-  // const [isFetching, setIsFetching] = useState(false);
 
   const { email, password } = formData;
 

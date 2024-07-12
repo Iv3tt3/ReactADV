@@ -1,9 +1,14 @@
-import { advertsLoadedFulfilled, authLogin, authLoginFulfilled, authLoginPending, authLoginRejected } from '../actions';
-import { ADVERTS_LOADED_FULFILLED, AUTH_LOGIN_PENDING } from '../types';
+import {
+  advertsLoadedFulfilled,
+  authLogin,
+  authLoginFulfilled,
+  authLoginPending,
+  authLoginRejected,
+} from "../actions";
+import { ADVERTS_LOADED_FULFILLED, AUTH_LOGIN_PENDING } from "../types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-
-describe('authLoginPending', () => {
+describe("authLoginPending", () => {
   it('should return an "AUTH_LOGIN_PENDING" action', () => {
     const expectedAction = {
       type: AUTH_LOGIN_PENDING,
@@ -13,28 +18,28 @@ describe('authLoginPending', () => {
   });
 });
 
-describe('advertsLoadedFulfilled', () => {
+describe("advertsLoadedFulfilled", () => {
   it('should return an "ADVERTS_LOADED_FULFILLED" action', () => {
-    const adverts = 'adverts'
+    const adverts = "adverts";
     const expectedAction = {
       type: ADVERTS_LOADED_FULFILLED,
-      payload: adverts
+      payload: adverts,
     };
     const action = advertsLoadedFulfilled(adverts);
     expect(action).toEqual(expectedAction);
   });
 });
 
-describe('authLogin', () => {
+describe("authLogin", () => {
   afterEach(() => {
-    vi.restoreAllMocks()
-  })
+    vi.restoreAllMocks();
+  });
 
-  const credentials = 'credentials';
-  const checked = 'checked'
+  const credentials = "credentials";
+  const checked = "checked";
   const action = authLogin(credentials, checked);
 
-  const redirectUrl = 'redirectUrl';
+  const redirectUrl = "redirectUrl";
   const dispatch = vi.fn();
   const services = { auth: {} };
   const router = {
@@ -42,7 +47,7 @@ describe('authLogin', () => {
     navigate: vi.fn(),
   };
 
-  it('when login resolves should follow the login flow', async () => {
+  it("when login resolves should follow the login flow", async () => {
     services.auth.login = vi.fn().mockResolvedValue();
 
     await action(dispatch, undefined, { services, router });
@@ -53,8 +58,8 @@ describe('authLogin', () => {
     expect(router.navigate).toHaveBeenCalledWith(redirectUrl);
   });
 
-  it('when login rejects should follow the error flow', async () => {
-    const error = new Error('Unauthorized');
+  it("when login rejects should follow the error flow", async () => {
+    const error = new Error("Unauthorized");
     services.auth.login = vi.fn().mockRejectedValue(error);
 
     await action(dispatch, undefined, { services, router });

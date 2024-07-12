@@ -8,11 +8,10 @@ import { getAdvert } from "../../store/selectors";
 import { deleteAdvert, loadAdvert } from "../../store/actions";
 
 export function AdvertDetail() {
-  
   const adId = useParams().id;
 
-  const ad = useSelector(getAdvert(adId))
-  const dispatch = useDispatch()
+  const ad = useSelector(getAdvert(adId));
+  const dispatch = useDispatch();
 
   const [showConfirm, setShowCofirm] = useState(false);
 
@@ -21,7 +20,7 @@ export function AdvertDetail() {
   };
 
   useEffect(() => {
-    dispatch(loadAdvert(adId))
+    dispatch(loadAdvert(adId));
   }, [adId, dispatch]);
 
   return (

@@ -1,8 +1,4 @@
-import {
-  areAdvertsLoaded,
-  getAdvert,
-  getTagsFromAds,
-} from "./selectors.jsx";
+import { areAdvertsLoaded, getAdvert, getTagsFromAds } from "./selectors.jsx";
 import * as t from "./types.jsx";
 
 export const authLoginPending = () => ({
@@ -163,11 +159,11 @@ export const deleteAdvert = (advertId) => {
     try {
       const state = getState();
       await adverts.deleteAdvert(advertId);
-      const filterAdverts = state.adverts.data.filter(advert => 
-        advert.id !== advertId
-        )
+      const filterAdverts = state.adverts.data.filter(
+        (advert) => advert.id !== advertId
+      );
       dispatch(advertDelete(filterAdverts));
-      dispatch(loadTags())
+      dispatch(loadTags());
       router.navigate("/");
     } catch (error) {
       dispatch(advertDeleteRejected(error));

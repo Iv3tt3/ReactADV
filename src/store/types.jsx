@@ -25,7 +25,7 @@ export const TAGS_LOADED_PENDING = "tags/loaded/pending";
 export const TAGS_LOADED_FULFILLED = "tags/loaded/fulfilled";
 export const TAGS_LOADED_REJECTED = "tags/loaded/rejected";
 
-export const TAGS_ADD = "tags/add"
+export const TAGS_ADD = "tags/add";
 
 export const TAGS_SELECTED = "tags/selected";
 export const TAGS_SELECTED_ADD = "tags/selected/add";

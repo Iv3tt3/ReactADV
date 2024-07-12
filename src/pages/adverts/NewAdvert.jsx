@@ -36,11 +36,11 @@ export function NewAdvert() {
         dispatch(addTag(selectedTags[0]));
       }
     } else {
-      selectedTags.map(tag => {
+      selectedTags.map((tag) => {
         if (!adsTags.includes(tag)) {
           dispatch(addTag(tag));
         }
-      })
+      });
     }
     await dispatch(
       createAd({
@@ -51,7 +51,6 @@ export function NewAdvert() {
         photo: fileInputRef.current.files[0],
       })
     );
-
   };
 
   const handleChange = (event) => {
