@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdverts, getSelectedTags, getTags } from "../../../store/selectors";
 import {
   addSelectedTag,
   loadAdverts,
-  loadTags,
   selectedTags,
 } from "../../../store/actions";
 
 export const useAdverts = () => {
   const dispatch = useDispatch();
   const adverts = useSelector(getAdverts);
-  const navigate = useNavigate();
   const tags = useSelector(getTags);
   const checkedTags = useSelector(getSelectedTags);
 
@@ -26,14 +23,9 @@ export const useAdverts = () => {
   const [isFilter, setIsFilter] = useState(false);
 
   useEffect(() => {
-    try {
-      dispatch(loadAdverts());
-      dispatch(loadTags());
-      setAdsFilter(adverts);
-    } catch (error) {
-      if (error.status === 404) navigate("/404");
-    }
-  }, [navigate, dispatch, adverts]);
+    dispatch(loadAdverts());
+    setAdsFilter(adverts);
+  }, [dispatch, adverts, tags]);
 
   const handleChange = (event) => {
     setPricesFilter((currentData) => ({
@@ -52,7 +44,6 @@ export const useAdverts = () => {
   };
 
   const getFilterAdverts = () => {
-
     let advertsFilterByTag = [];
     if (checkedTags.length > 0) {
       adverts.map((advert) => {
@@ -93,7 +84,7 @@ export const useAdverts = () => {
     setTypeFilter("");
     setAdsFilter(adverts);
     setIsFilter(false);
-    dispatch(selectedTags([]))
+    dispatch(selectedTags([]));
   };
 
   const arrayTags = [];

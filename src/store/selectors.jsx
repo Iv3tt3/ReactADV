@@ -14,3 +14,15 @@ export const areTagsLoaded = state => state.tags.loaded;
 export const getTags = state => state.tags.data;
 export const getSelectedTags = state => state.tags.selected;
 
+export const getTagsFromAds = (state) => {
+  const adverts = state.adverts.data;
+  const tags = [];
+  adverts.map((advert) => {
+    advert.tags.map((tag) => {
+      if (!tags.includes(tag)) {
+        tags.push(tag);
+      }
+    });
+  });
+  return tags;
+};

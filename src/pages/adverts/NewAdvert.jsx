@@ -31,16 +31,6 @@ export function NewAdvert() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await dispatch(
-      createAd({
-        name,
-        price,
-        sale,
-        tags: selectedTags.join(),
-        photo: fileInputRef.current.files[0],
-      })
-    );
-
     if (selectedTags.length === 1) {
       if (!adsTags.includes(selectedTags[0])) {
         dispatch(addTag(selectedTags[0]));
@@ -52,6 +42,15 @@ export function NewAdvert() {
         }
       })
     }
+    await dispatch(
+      createAd({
+        name,
+        price,
+        sale,
+        tags: selectedTags.join(),
+        photo: fileInputRef.current.files[0],
+      })
+    );
 
   };
 

@@ -37,14 +37,7 @@ export function adverts(state = defaultState.adverts, action) {
     case t.ADVERT_DETAIL_FULFILLED:
       return { ...state, data: [action.payload] };
     case t.ADVERT_DELETE:
-      return {
-        ...state,
-        data: [
-          ...state.data.filter((item) => {
-            item !== action.payload;
-          }),
-        ],
-      };
+      return { ...state, data: action.payload };
     default:
       return state;
   }

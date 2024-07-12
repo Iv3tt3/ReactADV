@@ -1,4 +1,8 @@
-import { areAdvertsLoaded, areTagsLoaded, getAdvert } from "./selectors.jsx";
+import {
+  areAdvertsLoaded,
+  getAdvert,
+  getTagsFromAds,
+} from "./selectors.jsx";
 import * as t from "./types.jsx";
 
 export const authLoginPending = () => ({
@@ -24,7 +28,6 @@ export const authLogin = (credentials, checked) => {
       router.navigate(router.state.location.state?.pathname || "/");
     } catch (error) {
       dispatch(authLoginRejected(error));
-      console.log(error);
     }
   };
 };
@@ -69,6 +72,7 @@ export const loadAdverts = () => {
       dispatch(advertsLoadedPending());
       const advertsData = await adverts.getAdverts();
       dispatch(advertsLoadedFulfilled(advertsData));
+      dispatch(loadTags());
     } catch (error) {
       dispatch(advertsLoadedRejected(error));
     }
@@ -139,10 +143,9 @@ export const loadAdvert = (advertId) => {
   };
 };
 
-
-export const advertDelete = (advertId) => ({
+export const advertDelete = (adverts) => ({
   type: t.ADVERT_DELETE,
-  payload: advertId,
+  payload: adverts,
 });
 
 export const advertDeleteRejected = (error) => ({
@@ -152,10 +155,19 @@ export const advertDeleteRejected = (error) => ({
 });
 
 export const deleteAdvert = (advertId) => {
-  return async function (dispatch, getState, { services: { adverts }, router }) {
+  return async function (
+    dispatch,
+    getState,
+    { services: { adverts }, router }
+  ) {
     try {
+      const state = getState();
       await adverts.deleteAdvert(advertId);
-      dispatch(advertDelete(advertId));
+      const filterAdverts = state.adverts.data.filter(advert => 
+        advert.id !== advertId
+        )
+      dispatch(advertDelete(filterAdverts));
+      dispatch(loadTags())
       router.navigate("/");
     } catch (error) {
       dispatch(advertDeleteRejected(error));
@@ -179,14 +191,17 @@ export const tagsLoadedRejected = (error) => ({
 });
 
 export const loadTags = () => {
-  return async function (dispatch, getState, { services: { adverts } }) {
+  return async function (dispatch, getState) {
     try {
       const state = getState();
-      if (areTagsLoaded(state)) {
-        return;
-      }
+      //To resolve problem with API. Api returns 4 tags when there is 6 differen tags in my ads. I will use info in redux state and avoid API request
+
+      // if (areTagsLoaded(state)) {
+      //   return;
+      // }
+      //const tagsData = await adverts.getTags();
       dispatch(tagsLoadedPending());
-      const tagsData = await adverts.getTags();
+      const tagsData = getTagsFromAds(state);
       dispatch(tagsLoadedFulfilled(tagsData));
     } catch (error) {
       dispatch(tagsLoadedRejected(error));
